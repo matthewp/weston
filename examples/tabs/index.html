@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>Tabs</title>
+</head>
+<body>
+  <style>
+    .panel {
+      display: none;
+    }
+    .panel.selected {
+      display: block;
+    }
+  </style>
+  <template id="body">
+    <tabs-widget></tabs-widget>
+  </template>
+  <template id="tabs-template">
+    <template each="{{panels}}">
+      <a href="javscript://" class="title">
+        {{title}}
+      </a>
+    </template>
+
+    <template each="{{panels}}">
+      <div class="panel" title="{{title}}">Hello {{title}}</div>
+    </template>
+  </template>
+  <script src="../../node_modules/steal/steal.js" main="examples/tabs/tabs">
+  </script>
+</body>
+</html>
