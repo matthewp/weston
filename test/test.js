@@ -58,6 +58,10 @@ QUnit.test("can call functions with args", function(assert){
 
   var div = frag.firstChild;
   assert.equal(div.textContent, "MATTHEW");
+
+  map.attr("name", "wilbur");
+
+  assert.equal(div.textContent, "WILBUR");
 });
 
 QUnit.module("template each");
