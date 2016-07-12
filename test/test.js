@@ -1,6 +1,8 @@
 var QUnit = require("steal-qunit");
 var weston = require("weston");
 var Map = require("can-simple-map");
+var Component = require("can-component");
+var viewModel = require("can-view-model");
 
 QUnit.module("fromString API");
 
@@ -86,4 +88,34 @@ QUnit.test("basics works", function(assert){
 
   assert.equal(firstSpan.textContent, "one");
   assert.equal(secondSpan.textContent, "two");
+});
+
+QUnit.module("can-component");
+
+QUnit.test("automatic binding", function(assert){
+  Component.extend({
+    tag: "basic-el",
+    template: weston.fromString("<template><div>Hello {{name}}</div></template>"),
+    viewModel: {
+      name: "Person"
+    }
+  });
+  var map = new Map({ name: "Matthew" });
+
+  var template = weston.fromString("<template><basic-el name='{{name}}'></basic-el>");
+  var frag = template(map);
+  var customEl = frag.firstChild;
+  var tn = customEl.firstChild.firstChild.nextSibling;
+
+  assert.equal(tn.nodeValue, "Matthew");
+
+  map.attr("name", "Wilbur");
+
+  assert.equal(tn.nodeValue, "Wilbur");
+
+  // This is auto bindings so...
+  var vm = viewModel(customEl);
+  vm.attr("name", "Matthew");
+
+  assert.equal(map.attr("name"), "Matthew");
 });

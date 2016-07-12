@@ -9,13 +9,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "can-component": "^3.0.0-pre.12",
+    "can-component": "^3.0.0-pre.13",
     "can-simple-map": "^3.0.0-pre.3",
+    "can-view-model": "^3.0.0-pre.4",
     "steal": "^1.0.0-beta.0",
     "steal-qunit": "^0.1.1"
   },
   "dependencies": {
     "can-compute": "^3.0.0-pre.6",
+    "can-event": "^3.0.0-pre.5",
     "can-observation": "^3.0.0-pre.2",
     "can-util": "^3.0.0-pre.28",
     "can-view-callbacks": "^3.0.0-pre.6",
