@@ -119,3 +119,36 @@ QUnit.test("automatic binding", function(assert){
 
   assert.equal(map.attr("name"), "Matthew");
 });
+
+QUnit.test("one-way binding", function(assert){
+  Component.extend({
+    tag: "oneway-el",
+    template: weston.fromString("<template><div>Hello {{name}}</div></template>"),
+    viewModel: {
+      name: "Person"
+    }
+  });
+  var map = new Map({ name: "Matthew" });
+
+  var template = weston.fromString("<template><oneway-el name='[[name]]'></oneway-el></template>");
+  var frag = template(map);
+  var customEl = frag.firstChild;
+  var tn = customEl.firstChild.firstChild.nextSibling;
+
+  assert.equal(tn.nodeValue, "Matthew");
+
+  map.attr("name", "Wilbur");
+
+  assert.equal(tn.nodeValue, "Wilbur");
+
+  // This is one-way bindings so...
+  var vm = viewModel(customEl);
+  vm.attr("name", "Matthew");
+
+  assert.equal(map.attr("name"), "Wilbur", "name did not change");
+  assert.equal(tn.nodeValue, "Matthew", "tn did");
+
+  map.attr("name", "Anne");
+  assert.equal(vm.attr("name"), "Anne");
+  assert.equal(tn.nodeValue, "Anne");
+});
