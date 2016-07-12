@@ -7,7 +7,7 @@
     .panel {
       display: none;
     }
-    .panel.selected {
+    .panel[display=true] {
       display: block;
     }
   </style>
@@ -16,13 +16,14 @@
   </template>
   <template id="tabs-template">
     <template each="{{panels}}">
-      <a href="javscript://" class="title">
+      <a href="javscript://" class="title" data-index="{{index}}">
         {{title}}
       </a>
     </template>
 
     <template each="{{panels}}">
-      <div class="panel" title="{{title}}">Hello {{title}}</div>
+      <div class="panel" title="{{title}}"
+        display="{{selected}}">Hello {{title}}</div>
     </template>
   </template>
   <script src="../../node_modules/steal/steal.js" main="examples/tabs/tabs">

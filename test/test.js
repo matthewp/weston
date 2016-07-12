@@ -3,6 +3,7 @@ var weston = require("weston");
 var Map = require("can-simple-map");
 var Component = require("can-component");
 var viewModel = require("can-view-model");
+var callbacks = require("can-view-callbacks");
 
 QUnit.module("fromString API");
 
@@ -88,6 +89,55 @@ QUnit.test("basics works", function(assert){
 
   assert.equal(firstSpan.textContent, "one");
   assert.equal(secondSpan.textContent, "two");
+});
+
+QUnit.module("template if");
+
+QUnit.test("basics works", function(assert){
+  var template = weston.fromString("<template><template if='{{show}}'><div>Hello</div></template></template>");
+  var map = new Map({ show: true });
+
+  var frag = template(map);
+  assert.equal(frag.firstChild.firstChild.nodeValue, "Hello");
+
+  map.attr("show", false);
+  assert.equal(frag.firstChild.nodeType, 3);
+
+  map.attr("show", true);
+  assert.equal(frag.firstChild.firstChild.nodeValue, "Hello");
+});
+
+QUnit.test("item and index are available", function(assert){
+  var template = weston.fromString("<template><template each='{{things}}'><span>{{item.name}}</span><span>{{index}}</span></template></template>");
+  var map = new Map({
+    things: [
+      new Map({ name: "one" }),
+      new Map({ name: "two" })
+    ]
+  });
+
+  var frag = template(map);
+
+  var first = frag.firstChild.nextSibling;
+  var second = first.nextSibling.nextSibling;
+
+  assert.equal(first.firstChild.nodeValue, "one");
+  assert.equal(first.nextSibling.firstChild.nodeValue, "0");
+
+  assert.equal(second.firstChild.nodeValue, "two");
+  assert.equal(second.nextSibling.firstChild.nodeValue, "1");
+});
+
+QUnit.module("view-callbacks attr");
+
+QUnit.test("basics works", function(assert){
+  var template = weston.fromString("<template><div thing='bar'></div></template>");
+  var map = new Map({ bar: 'qux' });
+  callbacks.attr("thing", function(el, tagData){
+    var val = tagData.scope.compute(el.getAttribute(tagData.attributeName))();
+    assert.equal(val, "qux");
+  });
+  var frag = template(map);
 });
 
 QUnit.module("can-component");
