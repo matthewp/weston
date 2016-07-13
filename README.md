@@ -57,11 +57,11 @@ Provide the `weston()` function either the element or a selector string:
 ```js
 var weston = require("weston");
 
-var template = weston("#my-template");
-var map = new Map();
-
-var fragment = template(map);
-document.body.appendChild(fragment);
+Component.extend({
+  tag: "person-title",
+  template: weston("#my-template"),
+  ViewModel: ViewModel
+});
 ```
 
 ### Provide a string
