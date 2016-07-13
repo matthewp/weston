@@ -38,6 +38,149 @@ document.body.appendChild(template(map));
 * This project is not affiliated with the CanJS org, the DoneJS org, or Bitovi. It's my (Matthew Phillips) personal project.
 * This project depends on prerelease versions of CanJS packages that you probably shouldn't be using. It will be updated to use the latest stable version (3.0) when it is released.
 
+## Use
+
+**weston** can be called one of two ways, both produce a renderer function that works the same as stache's.
+
+### Provide an element
+
+Let's say you have a template defined on a page:
+
+```html
+<template id="my-template">
+  <div>Hello {{name}}</div>
+</template>
+```
+
+Provide the `weston()` function either the element or a selector string:
+
+```js
+var weston = require("weston");
+
+var template = weston("#my-template");
+var map = new Map();
+
+var fragment = template(map);
+document.body.appendChild(fragment);
+```
+
+### Provide a string
+
+Alternatively you can provide weston a template string using `weston.fromString()`. This is mostly useful when writing tests:
+
+```js
+var weston = require("weston");
+
+var template = weston.fromString("<template><div>Hello {{name}}</div></template>");
+var map = new Map();
+
+var frag = template(map);
+document.body.appendChild(frag);
+```
+
+## Template concepts
+
+### Scope
+
+weston is different from stache in that scope is very easy to understand. Each `<template>` tag defines a new scope. Since template tags can be nested, scopes will also nest with them:
+
+```html
+<template id="outer">
+
+  <template each="{{teams}}">
+    <div>{{name}}</div>
+    <div class="record">{{wins}} - {{losses}}</div>
+  </template>
+
+</template>
+```
+
+In this example the inner template loops over the `teams` property that is part of the parent template's scope. Inside of this inner template there is another scope which is of a single team.
+
+### Binding
+
+Binding is simple in weston, there is one-way and automatic binding. There is no difference between binding to text vs. binding to an attribute vs. binding to a View Model. The syntax is the same.
+
+### One-way binding
+
+One-way binding binds from the parent to the child. Any change in the parent property will be reflected onto the child but the opposite doesn't hold.
+
+```html
+<template>
+
+  <custom-el foo="[[bar]]"></custom-el>
+
+</template>
+```
+
+Here we have a one way binding from the parent scope's `bar` property to the custom element `<custom-el>`'s `foo` property.
+
+### Automatic binding
+
+Automatic bindings are probably the most common you will use. You can bind to a text using these bindings like so:
+
+```html
+<template>
+  <div>{{name}}</div>
+</template>
+```
+
+This would work the same as if written as `[[name]]`. These are **automatic** bindings because weston decides if one-way or two-way is most appropriate. It doesn't make sense for at text node to be two-way so it is not. However this would be:
+
+```html
+<template>
+
+  <custom-el foo="{{bar}}"></custom-el>
+
+</template>
+```
+
+In this example if the `<custom-el>`'s foo property changes it will be reflected on the template's `bar` property.
+
+### Function calling
+
+**weston** always passes a property's exact value, this means if you have a map like:
+
+```js
+var MyMap = Map.extend({
+  name: function(){
+    return "Matthew";
+  }
+});
+```
+
+And you tried to use it like so:
+
+```html
+<template>
+  <div>{{name}}</div>
+</template>
+```
+
+It would not call the function. This is so that you can do interesting things like pass functions to child components. If you want to actually call a function, use `()` like you would in JavaScript:
+
+```html
+<template>
+  <div>{{name()}}</div>
+</template>
+```
+
+*Note* that this also means you can provide function arguments from other stuff within the template's scope. This will print out `MATTHEW`:
+
+```js
+var MyMap = Map.extend({
+  upper: function(str){
+    return str.toUpperCase();
+  }
+});
+```
+
+```html
+<template>
+  <div>{{upper(name)}}</div>
+</template>
+```
+
 ## FAQ
 
 ### Why build weston?
