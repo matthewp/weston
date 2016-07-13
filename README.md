@@ -101,7 +101,7 @@ In this example the inner template loops over the `teams` property that is part 
 
 Binding is simple in weston, there is one-way and automatic binding. There is no difference between binding to text vs. binding to an attribute vs. binding to a View Model. The syntax is the same.
 
-### One-way binding
+#### One-way binding
 
 One-way binding binds from the parent to the child. Any change in the parent property will be reflected onto the child but the opposite doesn't hold.
 
@@ -115,7 +115,7 @@ One-way binding binds from the parent to the child. Any change in the parent pro
 
 Here we have a one way binding from the parent scope's `bar` property to the custom element `<custom-el>`'s `foo` property.
 
-### Automatic binding
+#### Automatic binding
 
 Automatic bindings are probably the most common you will use. You can bind to a text using these bindings like so:
 
@@ -137,7 +137,7 @@ This would work the same as if written as `[[name]]`. These are **automatic** bi
 
 In this example if the `<custom-el>`'s foo property changes it will be reflected on the template's `bar` property.
 
-### Function calling
+#### Function calling
 
 **weston** always passes a property's exact value, this means if you have a map like:
 
@@ -180,6 +180,47 @@ var MyMap = Map.extend({
   <div>{{upper(name)}}</div>
 </template>
 ```
+
+### Conditionals
+
+Using `<template if="">` you can provide a value that, when true, will cause the template to be rendered. When false it will be removed.
+
+```html
+<template>
+  <h1>Todos</h1>
+
+  <template if="{{finished}}>
+  
+    <h2>You have no todos! Good job!</h2>
+
+  </template>
+
+</template>
+```
+
+### Iterating
+
+You can interate over an array-like structure using `<template each="">`. Within the scope of the template will be the item that you are looping over:
+
+```html
+<template>
+  <h1>Todos</h1>
+
+  <ul>
+    <template each="{{todos}}">
+      <li>
+        {{text}} {{dueBy}}
+      </li>
+    </template>
+  </ul>
+
+</template>
+```
+
+Within the scope of the each template there are two special values:
+
+* **item** represents the item that you are looping over.
+* **index** represents the index within the array-like.
 
 ## FAQ
 
