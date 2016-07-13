@@ -189,7 +189,7 @@ Using `<template if="">` you can provide a value that, when true, will cause the
 <template>
   <h1>Todos</h1>
 
-  <template if="{{finished}}>
+  <template if="{{finished}}">
   
     <h2>You have no todos! Good job!</h2>
 
