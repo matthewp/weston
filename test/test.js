@@ -67,6 +67,19 @@ QUnit.test("can call functions with args", function(assert){
   assert.equal(div.textContent, "WILBUR");
 });
 
+QUnit.module("one-way binding");
+
+QUnit.test("works in text", function(assert){
+  var template = weston.fromString("<template><div>[[name]]</div></template>");
+  var map = new Map({ name: "Matthew" });
+  var frag = template(map);
+
+  assert.equal(frag.firstChild.firstChild.nodeValue, "Matthew");
+
+  map.attr("name", "Wilbur");
+  assert.equal(frag.firstChild.firstChild.nodeValue, "Wilbur");
+});
+
 QUnit.module("template each");
 
 QUnit.test("basics works", function(assert){
@@ -201,4 +214,20 @@ QUnit.test("one-way binding", function(assert){
   map.attr("name", "Anne");
   assert.equal(vm.attr("name"), "Anne");
   assert.equal(tn.nodeValue, "Anne");
+});
+
+QUnit.test("passing a function", function(assert){
+  Component.extend({
+    tag: "pass-fn",
+    template: weston.fromString("<template><div>{{name()}}</div></template>"),
+    viewModel: {
+      name: "Wrong"
+    }
+  });
+  var map = new Map({ name: function(){ return "Matthew"; } });
+
+  var template = weston.fromString("<template><pass-fn name='[[name]]'></pass-fn></template>");
+  var frag = template(map);
+
+  assert.equal(frag.firstChild.firstChild.firstChild.nodeValue, "Matthew");
 });
