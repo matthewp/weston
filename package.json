@@ -4,26 +4,27 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "testee test/test.html --browsers firefox"
   },
   "author": "",
-  "license": "ISC",
+  "license": "BSD-2-Clause",
   "devDependencies": {
-    "can-component": "^3.0.0-pre.13",
-    "can-define": "^0.7.7",
-    "can-simple-map": "^3.0.0-pre.3",
-    "can-view-model": "^3.0.0-pre.4",
-    "steal": "^1.0.0-beta.0",
-    "steal-qunit": "^0.1.1"
+    "can-component": "^3.0.0",
+    "can-define": "^1.0.0",
+    "can-simple-map": "^3.0.0",
+    "can-view-model": "^3.0.0",
+    "steal": "^1.0.0-rc.0",
+    "steal-qunit": "^0.1.1",
+    "testee": "^0.3.0-pre.2"
   },
   "dependencies": {
-    "can-compute": "^3.0.0-pre.6",
-    "can-event": "^3.0.0-pre.5",
-    "can-observation": "^3.0.0-pre.2",
-    "can-util": "^3.0.0-pre.28",
-    "can-view-callbacks": "^3.0.0-pre.6",
-    "can-view-live": "^3.0.0-pre.3",
-    "can-view-scope": "^3.0.0-pre.10",
-    "can-view-target": "^3.0.0-pre.4"
+    "can-compute": "^3.0.0",
+    "can-event": "^3.0.0",
+    "can-observation": "^3.0.0",
+    "can-util": "^3.0.0",
+    "can-view-callbacks": "^3.0.0",
+    "can-view-live": "^3.0.0",
+    "can-view-scope": "^3.0.0",
+    "can-view-target": "^3.0.0"
   }
 }
