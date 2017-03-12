@@ -13,8 +13,9 @@
     "can-define": "^1.0.0",
     "can-simple-map": "^3.0.0",
     "can-view-model": "^3.0.0",
-    "steal": "^1.0.0-rc.0",
-    "steal-qunit": "^0.1.1",
+    "steal": "^1.0.0",
+    "steal-css": "^1.2.1",
+    "steal-qunit": "^1.0.0",
     "testee": "^0.3.0-pre.2"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "can-util": "^3.0.0",
     "can-view-callbacks": "^3.0.0",
     "can-view-live": "^3.0.0",
+    "can-view-nodelist": "^3.0.4",
     "can-view-scope": "^3.0.0",
     "can-view-target": "^3.0.0"
   }
